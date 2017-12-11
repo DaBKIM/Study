@@ -3,9 +3,9 @@ int blinkRate=0;
 
 void setup(){
 
-  // init serial port//init serial port
+  // init serial port
   Serial.begin(9600);
-  // set ledPin by OUTPUT//set ledPin by OUTPUT
+  // set ledPin by OUTPUT
   pinMode(ledPin,OUTPUT);
 }
 
