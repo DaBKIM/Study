@@ -185,3 +185,68 @@ vector<int> solution(vector<int> array, vector<vector<int>> commands) {
     }
     return answer;
 }
+
+
+// 체육복
+// 그리디 알고리즘
+// 전체 학생의 수 n, 체육복을 도난당한 학생들의 번호가 담긴 배열 lost, 
+// 여벌의 체육복을 가져온 학생들의 번호가 담긴 배열 reserve가 매개변수로 주어질 때, 
+// 체육수업을 들을 수 있는 학생의 최댓값을 return
+
+// 본인 번호의 앞사람이나 뒷사람의 체육복만 빌릴 수 있다
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n, vector<int> lost, vector<int> reserve) {
+    
+    int answer = 0;
+    // check : 각자 가지고 있는 체육복의 수
+    int check[n+1];
+    
+    // 체육복의 수 전체 파악
+    for(int i=1;i<n+1;i++){
+        check[i] = 1;
+        for(int j = 0; j<lost.size();j++){
+            if(lost[j] == i) check[i]--;
+        }
+        for(int j = 0 ; j<reserve.size();j++){
+            if(reserve[j]==i) check[i]++;
+        }
+    }
+    
+    // 체육복의 수가 2인 앞사람 또는 뒷사람에게 체육복 빌리기
+    for(int i = 1;i<n+1;i++){
+        
+        if(i==1 && check[i] == 0){
+            if(check[i+1] > 1){
+                check[i]++;
+                check[i+1]--;
+            }
+        }
+        if(i>1 && i<n &&check[i] == 0){
+            if(check[i-1] == 2){
+                check[i-1]--;
+                check[i]++;
+            }else if(check[i+1] == 2){
+                check[i+1]--;
+                check[i]++;
+            }
+        }
+        if(i == n && check[i] == 0){
+            if(check[i-1] == 2){
+                check[i]++;
+                check[i-1]--;
+            }
+        }
+    }
+    
+    // 0이 아닌 값을 가짐 == 체육복을 빌림/소유
+    for(int i = 1; i<n+1;i++){
+        if(check[i] > 0) answer++;
+    }
+    
+    return answer;
+}
